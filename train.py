@@ -114,9 +114,7 @@ def operateField():
         except:
              print("You can only enter integers.")
              continue
-        # if type(commandList[0]) != int or type(commandList[1]) != int:
-        #     print("You can only enter integers.")
-        #     continue
+
         if trainToOperate not in getExistingTrains():
             print("That train literally isn't even on the board.")
             continue
