@@ -123,17 +123,17 @@ def operateField():
         trains[getExistingTrains().index(trainToOperate)].move(distance)
 
 
-# generateTrains()
-# operateField()
-
-print("Before the move:\n")
 generateTrains()
-field = renderField() #THIS MUST GO FIRST
-printField(field)
-trains[1].move(-1)
-trains[0].move(1)
-trains[0].move(1)
-trains[0].move(1)
-print("After the move:\n")
-field = renderField() #THIS MUST GO FIRST
-printField(field)
+operateField()
+
+# print("Before the move:\n")
+# generateTrains()
+# field = renderField() #THIS MUST GO FIRST
+# printField(field)
+# trains[1].move(-1)
+# trains[0].move(1)
+# trains[0].move(1)
+# trains[0].move(1)
+# print("After the move:\n")
+# field = renderField() #THIS MUST GO FIRST
+# printField(field)
