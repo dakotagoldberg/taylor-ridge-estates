@@ -1,0 +1,7 @@
+- You can only have one train horizontally between the goal and the goalTrain
+- 6 x 6 field
+- goal at [6, 2] --> yes, off the field
+- There are 2 sizes of blocks: len 2 or len 3
+
+- can the trains be arrange so that there are no y abstructions across the goalline
+    - in between the starting pt and the 

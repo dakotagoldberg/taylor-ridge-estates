@@ -1,5 +1,3 @@
-from random import randint
-
 # Creating the Array
 fieldSize = [7, 7]
 global field
@@ -64,23 +62,10 @@ class Train:
 
 def generateTrains():
     # NOTE: [a, b] --> a is up/down, b is left/right
-
-    # The max trains depends on the area of the field and length of each train it might also depend on whatever algorithm we select, so right now it will be totally random
-    # THESE CAN OVERLAP! (it is okay for now)
-    maxTrains = fieldSize[0] #NOT INCLUDING TRAIN 1
-    numTrains = randint(2, maxTrains)
-    for i in range(numTrains):
-        dirChance = randint(0,1)
-        if (dirChance): #hori
-            startPt = randint(0, fieldSize[0] - 2)
-            endPt = randint(startPt + 1, fieldSize[0])
-            shift = 
-        else:
-
-
-
     tom = Train(1, "horizontal", [1, 1], [1, 2])
-    
+    tom3 = Train(3, "vertical", [1, 5], [3, 5])
+    trains.append(tom)
+    trains.append(tom3)
 
 
 def getExistingTrains():
@@ -111,9 +96,8 @@ def printField(field):
             print("")
 
 
-generateTrains() # Generate the trains before they move because if there are no trains then how are we supposed...
+generateTrains()
 
-# PLAY
 
 while (playing):
     field = renderField() #THIS MUST GO FIRST
@@ -139,3 +123,49 @@ while (playing):
         continue
     trains[getExistingTrains().index(trainToOperate)].move(distance)
 
+
+# generateTrains()
+# operateField()
+
+# print("Before the move:\n")
+# generateTrains()
+# field = renderField() #THIS MUST GO FIRST
+# printField(field)
+# trains[1].move(-1)
+# field = renderField() #THIS MUST GO FIRST
+# printField(field)
+# trains[0].move(3)
+# print("After the move:\n")
+# field = renderField() #THIS MUST GO FIRST
+# printField(field)
+
+
+
+
+
+
+# print("Before the move:\n")
+# generateTrains()
+# field = renderField() #THIS MUST GO FIRST
+# printField(field)
+# trains[1].move(-1)
+# field = renderField() #THIS MUST GO FIRST
+# printField(field)
+# trains[0].move(3)
+# print("After the move:\n")
+# field = renderField() #THIS MUST GO FIRST
+# printField(field)
+
+
+
+
+
+
+
+
+
+tom3 = Train(3, "vertical", [1, 5], [3, 5])
+tom2 = Train(2, "horizontal", [6, 2], [6, 5])
+trains.append(tom)
+trains.append(tom3)
+trains.append(tom2)
