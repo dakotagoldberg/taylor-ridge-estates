@@ -1,7 +1,7 @@
 from random import randint
 
 # Creating the Array
-fieldSize = [7, 7]
+fieldSize = [6, 6]
 global field
 global trains
 field = [[0 for x in range(fieldSize[0])] for y in range(fieldSize[1])] 
@@ -27,7 +27,7 @@ class Train:
             else:
                 lesserBound = newStart
                 greaterBound = self.endPos[1]
-            if (self.checkAvailableSpace(lesserBound, greaterBound, self.startPos[0])):
+            if (self.checkAvailableSpace(lesserBound, greaterBound, self.startPos[0], field)):
                 self.startPos[1] = newStart
                 self.endPos[1] = newEnd
             else:
@@ -42,13 +42,13 @@ class Train:
             else:
                 lesserBound = newStart
                 greaterBound = self.endPos[0]
-            if (self.checkAvailableSpace(lesserBound, greaterBound, self.startPos[1])):
+            if (self.checkAvailableSpace(lesserBound, greaterBound, self.startPos[1], field)):
                 self.startPos[0] = newStart
                 self.endPos[0] = newEnd
             else:
                 print("YOU CANNOT MOVE THE TRAIN")
 
-    def checkAvailableSpace(self, lesserBound, greaterBound, track):
+    def checkAvailableSpace(self, lesserBound, greaterBound, track, field):
         if self.orientation == "horizontal":
             for i in range(lesserBound, greaterBound + 1):
                 if i >= lesserBound and i <= greaterBound:
@@ -64,20 +64,43 @@ class Train:
 
 def generateTrains():
     # NOTE: [a, b] --> a is up/down, b is left/right
+    
+    goalTrain = Train(1, "horizontal", [2, 4], [2, 5])
+    trains.append(goalTrain)
+    
+    numTrains = randint(8, 10)
+    for i in range(2, numTrains):
+        
+        direction = randint(0, 1) # 1 --> horizontal, 0 --> vertical
+        shift = randint(0, fieldSize[0] - 1)
+        startPlace = randint(0, 4)
+        length = randint(2, 3)
 
-    # The max trains depends on the area of the field and length of each train it might also depend on whatever algorithm we select, so right now it will be totally random
-    # THESE CAN OVERLAP! (it is okay for now)
-    maxTrains = fieldSize[0] #NOT INCLUDING TRAIN 1
-    numTrains = randint(2, maxTrains)
-    for i in range(numTrains):
-        dirChance = randint(0,1)
-        if (dirChance): #hori
-            startPt = randint(0, fieldSize[0] - 2)
-            endPt = randint(startPt + 1, fieldSize[0])
-            shift = 
+        # trainPassesInspection = False
+        # while (not trainPassesInspection):
+        field = renderField()
+        # printField(field)
+        if (direction):
+            startPos = [shift, startPlace]
+            endPos = [shift, startPlace + length - 1]
+            tempTrain = Train(i, "horizontal", startPos, endPos)
+            trainPassesInspection = tempTrain.checkAvailableSpace(startPlace, startPlace + length - 1, shift, field)                
+            print(trainPassesInspection)
+            if (trainPassesInspection):
+                trains.append(tempTrain)
         else:
+            startPos = [startPlace, shift]
+            endPos = [startPlace + length - 1, shift]
+            tempTrain = Train(i, "vertical", startPos, endPos)
+            trainPassesInspection = tempTrain.checkAvailableSpace(startPlace, startPlace + length - 1, shift, field)
+            print(trainPassesInspection)
+            if (trainPassesInspection):
+                trains.append(tempTrain)
+        
+        print("train: " + str(i) + " direction: " + str(direction) +  " shift: " + str(shift) +  " startPos: " + str(startPlace) +  " length: " + str(length))
 
 
+    
 
     tom = Train(1, "horizontal", [1, 1], [1, 2])
     

@@ -169,3 +169,21 @@ tom2 = Train(2, "horizontal", [6, 2], [6, 5])
 trains.append(tom)
 trains.append(tom3)
 trains.append(tom2)
+
+
+
+
+
+# The max trains depends on the area of the field and length of each train it might also depend on whatever algorithm we select, so right now it will be totally random
+    # THESE CAN OVERLAP! (it is okay for now)
+    maxTrains = fieldSize[0] #NOT INCLUDING TRAIN 1
+    numTrains = randint(2, maxTrains)
+
+    
+    for i in range(numTrains):
+        dirChance = randint(0,1)
+        if (dirChance): #hori
+            startPt = randint(0, fieldSize[0] - 2)
+            endPt = randint(startPt + 1, fieldSize[0])
+            shift = 
+        else:
