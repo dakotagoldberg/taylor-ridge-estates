@@ -6,6 +6,8 @@
 
 tries 5 time and gives up placing train
 
+TODO: spawn more vertical than horizontal
+
 - can the trains be arrange so that there are no y abstructions across the goalline
     - in between the starting pt and the 
 

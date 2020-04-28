@@ -18,6 +18,7 @@ class Train:
         self.endPos = endPos
 
     def move(self, magnitude):
+        field = renderField()
         if self.orientation == "horizontal":
             newStart = self.startPos[1] + magnitude
             newEnd = self.endPos[1] + magnitude
@@ -70,40 +71,58 @@ def generateTrains():
     
     numTrains = randint(8, 10)
     for i in range(2, numTrains):
-        
-        direction = randint(0, 1) # 1 --> horizontal, 0 --> vertical
-        shift = randint(0, fieldSize[0] - 1)
-        startPlace = randint(0, 4)
-        length = randint(2, 3)
-
-        # trainPassesInspection = False
-        # while (not trainPassesInspection):
+        trainPassesInspection = False
+        tryCounter = 0
         field = renderField()
-        # printField(field)
-        if (direction):
-            startPos = [shift, startPlace]
-            endPos = [shift, startPlace + length - 1]
-            tempTrain = Train(i, "horizontal", startPos, endPos)
-            trainPassesInspection = tempTrain.checkAvailableSpace(startPlace, startPlace + length - 1, shift, field)                
-            print(trainPassesInspection)
-            if (trainPassesInspection):
-                trains.append(tempTrain)
-        else:
-            startPos = [startPlace, shift]
-            endPos = [startPlace + length - 1, shift]
-            tempTrain = Train(i, "vertical", startPos, endPos)
-            trainPassesInspection = tempTrain.checkAvailableSpace(startPlace, startPlace + length - 1, shift, field)
-            print(trainPassesInspection)
-            if (trainPassesInspection):
-                trains.append(tempTrain)
+        while(not trainPassesInspection and tryCounter < 1000):
+            direction = 2 % randint(2, 6) # 1 --> horizontal, 0 --> vertical
+            shift = randint(0, fieldSize[0] - 1)
+            startPlace = randint(0, 4)
+            length = randint(2, 3)
+            tryCounter+=1
+            if (direction):
+                startPos = [shift, startPlace]
+                endPos = [shift, startPlace + length - 1]
+                tempTrain = Train(i, "horizontal", startPos, endPos)
+                trainPassesInspection = tempTrain.checkAvailableSpace(startPlace, startPlace + length - 1, shift, field)                
+                # print(trainPassesInspection)
+                field = renderField()
+                if (trainPassesInspection):
+                    trains.append(tempTrain)
+            else:
+                startPos = [startPlace, shift]
+                endPos = [startPlace + length - 1, shift]
+                tempTrain = Train(i, "vertical", startPos, endPos)
+                trainPassesInspection = tempTrain.checkAvailableSpace(startPlace, startPlace + length - 1, shift, field)
+                # print(trainPassesInspection)
+                field = renderField()
+                if (trainPassesInspection):
+                    trains.append(tempTrain)
         
-        print("train: " + str(i) + " direction: " + str(direction) +  " shift: " + str(shift) +  " startPos: " + str(startPlace) +  " length: " + str(length))
+        # print("train: " + str(i) + " direction: " + str(direction) +  " shift: " + str(shift) +  " startPos: " + str(startPlace) +  " length: " + str(length))
 
-
+    shuffleTrains()
     
 
-    tom = Train(1, "horizontal", [1, 1], [1, 2])
-    
+def shuffleTrains():
+    field = renderField()
+    for i in range(100):
+        field = renderField()
+        randomTrain = randint(1, len(trains))
+        randomDistance = randint(1, 4)
+        trains[getExistingTrains().index(randomTrain)].move(randomDistance)
+        field = renderField()
+        trains[getExistingTrains().index(1)].move(-1)
+        field = renderField()
+
+
+def checkInstantWin():
+    field = renderField()
+    firstOne = field[2].index(1)
+    for i in (field[2][firstOne:len(field[2])]):
+        if i != 0 and i != 1:
+            return False
+    return True
 
 
 def getExistingTrains():
@@ -134,8 +153,13 @@ def printField(field):
             print("")
 
 
-generateTrains() # Generate the trains before they move because if there are no trains then how are we supposed...
 
+generateTrains()
+field = renderField()
+while (checkInstantWin() == True):
+    trains = []
+    generateTrains() # Generate the trains before they move because if there are no trains then how are we supposed...
+    field = renderField()
 # PLAY
 
 while (playing):
