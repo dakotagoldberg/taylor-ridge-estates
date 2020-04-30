@@ -187,3 +187,8 @@ trains.append(tom2)
             endPt = randint(startPt + 1, fieldSize[0])
             shift = 
         else:
+
+
+
+         and startPos != 2 and endPos != 2 and not (startPos == 1 and endPos == 3)
+          and shift != 2

@@ -66,10 +66,10 @@ class Train:
 def generateTrains():
     # NOTE: [a, b] --> a is up/down, b is left/right
     
-    goalTrain = Train(1, "horizontal", [2, 4], [2, 5])
+    goalTrain = Train(1, "horizontal", [2, 0], [2, 1])
     trains.append(goalTrain)
     
-    numTrains = randint(8, 10)
+    numTrains = randint(9, 15)
     for i in range(2, numTrains):
         trainPassesInspection = False
         tryCounter = 0
@@ -103,17 +103,26 @@ def generateTrains():
 
     shuffleTrains()
     
-
+# def shuffleTrains():
+#     field = renderField()
+#     for i in range(1000):
+#         field = renderField()
+#         randomTrain = randint(1, len(trains))
+#         randomDistance = randint(1, 4)
+#         trains[getExistingTrains().index(randomTrain)].move(randomDistance)
+#         field = renderField()
+#         trains[getExistingTrains().index(1)].move(-1)
+#         field = renderField()
 def shuffleTrains():
     field = renderField()
-    for i in range(100):
-        field = renderField()
-        randomTrain = randint(1, len(trains))
-        randomDistance = randint(1, 4)
-        trains[getExistingTrains().index(randomTrain)].move(randomDistance)
-        field = renderField()
+    for j in range(100):
+        for i in range(2, len(trains)):
+            field = renderField()
+            randomDistance = randint(1, 4)
+            trains[getExistingTrains().index(i)].move(randomDistance)
+            field = renderField()
         trains[getExistingTrains().index(1)].move(-1)
-        field = renderField()
+
 
 
 def checkInstantWin():
@@ -123,6 +132,13 @@ def checkInstantWin():
         if i != 0 and i != 1:
             return False
     return True
+
+def checkImpossible():
+    field = renderField()
+    for i in (field[2]):
+        if i != 0 and i != 1:
+            return True
+    return False
 
 
 def getExistingTrains():
@@ -149,7 +165,7 @@ def renderField():
 def printField(field):
     for i in field:
             for j in i:
-                print(j, end = " "),
+                print(hex(j)[-1], end = " "),
             print("")
 
 

@@ -8,6 +8,9 @@ tries 5 time and gives up placing train
 
 TODO: spawn more vertical than horizontal
 
+
+IDEA: force all trains to move before moving the same train twice 
+
 - can the trains be arrange so that there are no y abstructions across the goalline
     - in between the starting pt and the 
 
