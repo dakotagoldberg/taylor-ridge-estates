@@ -87,7 +87,7 @@ def generateTrains():
                 trainPassesInspection = tempTrain.checkAvailableSpace(startPlace, startPlace + length - 1, shift, field)                
                 # print(trainPassesInspection)
                 field = renderField()
-                if (trainPassesInspection):
+                if (trainPassesInspection and checkImpossible(tempTrain)):
                     trains.append(tempTrain)
             else:
                 startPos = [startPlace, shift]
@@ -96,7 +96,7 @@ def generateTrains():
                 trainPassesInspection = tempTrain.checkAvailableSpace(startPlace, startPlace + length - 1, shift, field)
                 # print(trainPassesInspection)
                 field = renderField()
-                if (trainPassesInspection):
+                if (trainPassesInspection and checkImpossible(tempTrain)):
                     trains.append(tempTrain)
         
         # print("train: " + str(i) + " direction: " + str(direction) +  " shift: " + str(shift) +  " startPos: " + str(startPlace) +  " length: " + str(length))
@@ -117,6 +117,9 @@ def shuffleTrains():
     field = renderField()
     for j in range(100):
         for i in range(2, len(trains)):
+            if i not in getExistingTrains():
+                print("That train literally isn't even on the board.")
+                continue
             field = renderField()
             randomDistance = randint(1, 4)
             trains[getExistingTrains().index(i)].move(randomDistance)
@@ -133,12 +136,15 @@ def checkInstantWin():
             return False
     return True
 
-def checkImpossible():
+def checkImpossible(train):
     field = renderField()
-    for i in (field[2]):
-        if i != 0 and i != 1:
-            return True
-    return False
+    if train.orientation == "horizontal" and train.startPos[0] == 2:
+        return False
+    elif train.orientation == "vertical":
+        for i in range(train.startPos[0], train.endPos[0]):
+            if i == 2:
+                return False
+    return True
 
 
 def getExistingTrains():
@@ -186,7 +192,7 @@ while (playing):
     commands = input()
     commandList = commands.split(" ")
     try:
-        trainToOperate = int(commandList[0])
+        trainToOperate = int(commandList[0], 16)
     except:
             print("You can only enter integers.")
             continue
