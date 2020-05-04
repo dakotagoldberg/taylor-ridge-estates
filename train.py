@@ -18,7 +18,7 @@ class Train:
         self.startPos = startPos
         self.endPos = endPos
 
-    def move(self, magnitude):
+    def move(self, magnitude, noErrors=0):
         field = renderField()
         if self.orientation == "horizontal":
             newStart = self.startPos[1] + magnitude
@@ -33,7 +33,8 @@ class Train:
                 self.startPos[1] = newStart
                 self.endPos[1] = newEnd
             else:
-                print("YOU CANNOT MOVE THE TRAIN")
+                if (not noErrors):
+                    print("YOU CANNOT MOVE THE TRAIN")
         else:
             if self.orientation == "vertical":
                 newStart = self.startPos[0] + magnitude
@@ -48,7 +49,8 @@ class Train:
                 self.startPos[0] = newStart
                 self.endPos[0] = newEnd
             else:
-                print("YOU CANNOT MOVE THE TRAIN")
+                if (not noErrors):
+                    print("YOU CANNOT MOVE THE TRAIN")
 
     def checkAvailableSpace(self, lesserBound, greaterBound, track, field):
         if self.orientation == "horizontal":
@@ -63,7 +65,7 @@ class Train:
                         return False
         return True
 
-
+# Creates a set of random but possible trains.
 def generateTrains():
     # NOTE: [a, b] --> a is up/down, b is left/right
     
@@ -104,31 +106,22 @@ def generateTrains():
 
     shuffleTrains()
     
-# def shuffleTrains():
-#     field = renderField()
-#     for i in range(1000):
-#         field = renderField()
-#         randomTrain = randint(1, len(trains))
-#         randomDistance = randint(1, 4)
-#         trains[getExistingTrains().index(randomTrain)].move(randomDistance)
-#         field = renderField()
-#         trains[getExistingTrains().index(1)].move(-1)
-#         field = renderField()
+
+# Makes the field shuffled so it's harder to solve.
 def shuffleTrains():
     field = renderField()
     for j in range(100):
         for i in range(2, len(trains)):
             if i not in getExistingTrains():
-                print("That train literally isn't even on the board.")
                 continue
             field = renderField()
             randomDistance = randint(1, 4)
-            trains[getExistingTrains().index(i)].move(randomDistance)
+            trains[getExistingTrains().index(i)].move(randomDistance, 1)
             field = renderField()
-        trains[getExistingTrains().index(1)].move(-1)
+        trains[getExistingTrains().index(1)].move(-1, 1)
 
 
-
+# Checks if the train spawns in the victory position.
 def checkInstantWin():
     field = renderField()
     firstOne = field[2].index(1)
@@ -137,6 +130,7 @@ def checkInstantWin():
             return False
     return True
 
+# Checks if a train spawns in the line of victory.
 def checkImpossible(train):
     field = renderField()
     if train.orientation == "horizontal" and train.startPos[0] == 2:
@@ -147,7 +141,7 @@ def checkImpossible(train):
                 return False
     return True
 
-
+# Returns an array of all trains on the board
 def getExistingTrains():
     lineup = []
     for i in trains:
@@ -156,7 +150,7 @@ def getExistingTrains():
     return lineup
 
 
-
+# Renders the field array. Call this before doing anything.
 def renderField():
     field = [[0 for x in range(fieldSize[0])] for y in range(fieldSize[1])] 
     for i in trains:
@@ -171,6 +165,7 @@ def renderField():
 
     return field
 
+# Prints the field.
 def printField(field):
     for i in field:
             for j in i:
@@ -178,6 +173,7 @@ def printField(field):
             print("")
 
 
+# Play
 totalTrophies = 0
 while (object):
     trains = []
@@ -220,3 +216,4 @@ while (object):
             continue
         trains[getExistingTrains().index(trainToOperate)].move(distance)
 
+# Any other ideas? 
