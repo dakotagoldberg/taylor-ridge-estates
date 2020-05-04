@@ -1,4 +1,5 @@
 from random import randint
+from time import sleep
 
 # Creating the Array
 fieldSize = [6, 6]
@@ -141,7 +142,7 @@ def checkImpossible(train):
     if train.orientation == "horizontal" and train.startPos[0] == 2:
         return False
     elif train.orientation == "vertical":
-        for i in range(train.startPos[0], train.endPos[0]):
+        for i in range(train.startPos[0], train.endPos[0] + 1):
             if i == 2:
                 return False
     return True
@@ -153,6 +154,8 @@ def getExistingTrains():
         lineup.append(i.number)
     
     return lineup
+
+
 
 def renderField():
     field = [[0 for x in range(fieldSize[0])] for y in range(fieldSize[1])] 
@@ -175,36 +178,45 @@ def printField(field):
             print("")
 
 
-
-generateTrains()
-field = renderField()
-while (checkInstantWin() == True):
+totalTrophies = 0
+while (object):
     trains = []
-    generateTrains() # Generate the trains before they move because if there are no trains then how are we supposed...
     field = renderField()
-# PLAY
+    generateTrains()
+    field = renderField()
+    while (checkInstantWin() == True):
+        trains = []
+        generateTrains() # Generate the trains before they move because if there are no trains then how are we supposed...
+        field = renderField()
+    # PLAY
 
-while (playing):
-    field = renderField() #THIS MUST GO FIRST
-    printField(field)
-    print("\n")
-    print("Type the train number you would like\nto move and how far you want to move it: ", end = " ")
-    commands = input()
-    commandList = commands.split(" ")
-    try:
-        trainToOperate = int(commandList[0], 16)
-    except:
-            print("You can only enter integers.")
-            continue
-    
-    try:
-        distance = int(commandList[1])
-    except:
-            print("You can only enter integers.")
-            continue
+    while (playing):
+        field = renderField() #THIS MUST GO FIRST
+        printField(field)
+        if (trains[0].startPos == [2, 4]):
+            print("You Won! Here is your trophy: 🏆")
+            totalTrophies += 1
+            print("Total trophies: " + str(totalTrophies) + "🏆")
+            sleep(3)
+            break
+        print("\n")
+        print("Type the train number you would like\nto move and how far you want to move it: ", end = " ")
+        commands = input()
+        commandList = commands.split(" ")
+        try:
+            trainToOperate = int(commandList[0], 16)
+        except:
+                print("You can only enter integers.")
+                continue
+        
+        try:
+            distance = int(commandList[1])
+        except:
+                print("You can only enter integers.")
+                continue
 
-    if trainToOperate not in getExistingTrains():
-        print("That train literally isn't even on the board.")
-        continue
-    trains[getExistingTrains().index(trainToOperate)].move(distance)
+        if trainToOperate not in getExistingTrains():
+            print("That train literally isn't even on the board.")
+            continue
+        trains[getExistingTrains().index(trainToOperate)].move(distance)
 
