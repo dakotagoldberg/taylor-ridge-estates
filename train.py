@@ -106,8 +106,16 @@ def generateTrains():
 
     shuffleTrains()
     
-
-# Makes the field shuffled so it's harder to solve.
+# def shuffleTrains():
+#     field = renderField()
+#     for i in range(1000):
+#         field = renderField()
+#         randomTrain = randint(1, len(trains))
+#         randomDistance = randint(1, 4)
+#         trains[getExistingTrains().index(randomTrain)].move(randomDistance)
+#         field = renderField()
+#         trains[getExistingTrains().index(1)].move(-1)
+#         field = renderField()
 def shuffleTrains():
     field = renderField()
     for j in range(100):
@@ -116,9 +124,9 @@ def shuffleTrains():
                 continue
             field = renderField()
             randomDistance = randint(1, 4)
-            trains[getExistingTrains().index(i)].move(randomDistance, 1)
+            trains[getExistingTrains().index(i)].move(randomDistance, True)
             field = renderField()
-        trains[getExistingTrains().index(1)].move(-1, 1)
+        trains[getExistingTrains().index(1)].move(-1, True)
 
 
 # Checks if the train spawns in the victory position.
@@ -169,7 +177,7 @@ def renderField():
 def printField(field):
     for i in field:
             for j in i:
-                print(hex(j)[-1], end = " "),
+                print(chr(j + 64), end = " "),
             print("")
 
 
@@ -200,7 +208,7 @@ while (object):
         commands = input()
         commandList = commands.split(" ")
         try:
-            trainToOperate = int(commandList[0], 16)
+            trainToOperate = ord((commandList[0]).upper()) - 64
         except:
                 print("You can only enter integers.")
                 continue
